@@ -14,7 +14,7 @@ const user = {
 
 const navigation = [
     { name: 'Home', href: '/home', current: true },
-    { name: 'Dashboard', href: '/dashboard', current: true },
+    { name: 'Dashboard', href: '/dashboard', current: false },
     { name: 'Search', href: '/search', current: false },
     { name: 'Messages', href: '/messages', current: false },
   ]
@@ -37,8 +37,8 @@ export function Navbar() {
         messagesCurrent: false,
     });
 
-    function handleChangeTab() {
-        if(1> 0){
+    function handleChangeTab(e) {
+        if(e.target.value === false){
 
         }
         setNavState({
