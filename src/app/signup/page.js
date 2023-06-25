@@ -1,9 +1,12 @@
 'use client'
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Navbar } from '../Navbar.js';
 
+
 export default function Signup({hasAccount, setHasAccount, setToken}) {
+    const { push } = useRouter();
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
@@ -18,7 +21,7 @@ export default function Signup({hasAccount, setHasAccount, setToken}) {
 
     const handleSignup = async (e) => {
         e.preventDefault();
-        const url = 'http://localhost:3000/api/users/login';
+        const url = 'http://localhost:3000/api/users/register';
         const newUser = {
           firstName: firstName,
           lastName: lastName,
@@ -39,7 +42,10 @@ export default function Signup({hasAccount, setHasAccount, setToken}) {
           body: JSON.stringify(newUser)
         });
         const data = await response.json();
-        console.log(data);
+        console.log(data.token);
+        localStorage.setItem('username', username);
+        // setToken(data.token);
+        localStorage.setItem('token', data.token);
         setFirstName('');
         setLastName('');
         setUsername('');
@@ -49,7 +55,7 @@ export default function Signup({hasAccount, setHasAccount, setToken}) {
         setJob('');
         setAbout('');
         setDistancePreference('');
-        setToken(data);
+        push('/home');
     }
     return (
         <>

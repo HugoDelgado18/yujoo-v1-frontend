@@ -4,14 +4,10 @@ import {
     isEqual,
     add,
     endOfMonth, 
-    format, 
-    formatDistance, 
-    parse, 
-    formatRelative, 
+    format,  
+    parse,  
     startOfMonth, 
     startOfToday, 
-    subDays,
-    endOfWeek, 
     isSameMonth, 
     isToday,
     getDay,
@@ -23,23 +19,23 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
 import { Menu, Transition } from '@headlessui/react'
 import { EllipsisVerticalIcon } from '@heroicons/react/24/outline'
 
-const events = [
-  {
-    id: 1,
-    name: 'Leslie Alexander',
-    image:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    startDatetime: '2023-06-29T13:00',
-    endDatetime: '2023-06-29T14:30',
-  },
-  // More meetings...
-]
+// const events = [
+//   {
+//     id: 1,
+//     name: 'Leslie Alexander',
+//     image:
+//       'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+//     startDatetime: '2023-06-29T13:00',
+//     endDatetime: '2023-06-29T14:30',
+//   },
+//   // More meetings...
+// ]
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Calendar() {
+export default function Calendar({ events }) {
     let today = startOfToday();
     const [selectedDay, setSelectedDay] = useState(today);
     const [currentMonth, setCurrentMonth] = useState(format(today, 'MMM-yyyy'));

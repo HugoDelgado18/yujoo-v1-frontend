@@ -12,10 +12,10 @@ export default function Login({hasAccount, setHasAccount, setToken}) {
         const url = 'http://localhost:3000/api/users/login';
         const response = await fetch(url);
         const data = await response.json();
-        console.log(data);
+        console.log(data.token);
         setUsername('');
         setPassword('');
-        setToken(data);
+        setToken(data.token);
     }
     return (
         <>
