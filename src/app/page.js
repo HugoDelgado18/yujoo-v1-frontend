@@ -4,14 +4,22 @@ import react, { useState } from 'react';
 import Home from './home/page';
 import Login from './login/page';
 import Signup from './signup/page';
+import useToken from '@/api/useToken';
 
 export default function Base() {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [loginFrame , setLoginFrame ] = useState(true);
+  const [hasAccount, setHasAccount] = useState(true);
+  const {token, setToken} = useToken();
+
+  if(!token) {
+    return (
+       hasAccount ? <Login hasAccount={hasAccount} setHasAccount={setHasAccount} setToken={setToken} /> : <Signup hasAccount={hasAccount} setHasAccount={setHasAccount} setToken={setToken} />
+    );
+  };
+
   return (
     <>
     <main>
-        {loggedIn ? <Home /> : loginFrame ? <Login loginFrame={loginFrame} setLoginFrame={setLoginFrame} loggedIn={loggedIn} setLoggedIn={setLoggedIn} /> : <Signup loginFrame={loginFrame} setLoginFrame={setLoginFrame} loggedIn={loggedIn} setLoggedIn={setLoggedIn} /> }
+        <Home />
     </main>
     </>
   )

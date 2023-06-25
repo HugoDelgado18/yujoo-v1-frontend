@@ -12,6 +12,7 @@
     "@headlessui/react": "^1.7.15",
     "@heroicons/react": "^2.0.18",
     "autoprefixer": "10.4.14",
+    "date-fns": "^2.30.0",
     "eslint": "8.43.0",
     "eslint-config-next": "13.4.6",
     "next": "^13.4.7-canary.4",

@@ -3,22 +3,41 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Navbar } from '../Navbar.js';
 
-export default function Signup() {
+export default function Signup({hasAccount, setHasAccount, setToken}) {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [location, setLocation] = useState('');
+    const [city, setCity] = useState('');
     const [age, setAge] = useState('');
     const [job, setJob] = useState('');
     const [about, setAbout] = useState('');
     const [hobbies, setHobbies] = useState('');
     const [distancePreference, setDistancePreference] = useState('');
 
-    const handleLogin = async (e) => {
+    const handleSignup = async (e) => {
         e.preventDefault();
         const url = 'http://localhost:3000/api/users/login';
-        const response = await fetch(url);
+        const newUser = {
+          firstName: firstName,
+          lastName: lastName,
+          username: username,
+          password: password,
+          location: `${location}, ${city}`,
+          age: age,
+          job: job,
+          about: about,
+          hobbies: hobbies,
+          distancePreference: distancePreference
+        }
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(newUser)
+        });
         const data = await response.json();
         console.log(data);
         setFirstName('');
@@ -30,6 +49,7 @@ export default function Signup() {
         setJob('');
         setAbout('');
         setDistancePreference('');
+        setToken(data);
     }
     return (
         <>
@@ -49,7 +69,7 @@ export default function Signup() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" onSubmit={handleLogin} method="POST">
+          <form className="space-y-6" onSubmit={handleSignup} method="POST">
             <div>
                 <label htmlFor="firstName" className="block text-sm font-medium leading-6 text-gray-900">
                     First Name
@@ -194,7 +214,26 @@ export default function Signup() {
                 </select>
             </div>
 
-            <div className="mt-4 grid grid-cols-3 gap-y-6 sm:grid-cols-3 sm:gap-x-12 " >
+            <div className="mt-4 grid grid-cols-3 gap-y-6 sm:grid-cols-3 sm:gap-x-3 " >
+                <div>
+                  <label htmlFor="City" className="block text-sm font-medium text-gray-700">
+                    City
+                  </label>
+                  <div className="mt-2 ">
+                    <input
+                      type="text"
+                      id="city"
+                      name="city"
+                      autoComplete="none"
+                      onChange={(e) => setCity(e.target.value)}
+                      value={city}
+                      className="block w-48 rounded-md border-0 py-1.5 pl-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                </div>
+            </div>
+
+            <div className="mt-4 grid grid-cols-3 gap-y-6 sm:grid-cols-3 sm:gap-x-3 " >
                 <div>
                   <label htmlFor="job" className="block text-sm font-medium text-gray-700">
                     Job
@@ -206,28 +245,50 @@ export default function Signup() {
                       name="job"
                       autoComplete="none"
                       onChange={(e) => setJob(e.target.value)}
-                      className="block w-40 rounded-md border-0 py-1.5 pl-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      value={job}
+                      className="block w-48 rounded-md border-0 py-1.5 pl-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
                   </div>
                 </div>
+            </div>
 
-                <div>
-                  <label htmlFor="Age" className="block text-sm font-medium text-gray-700 ml-10">
-                    Age
-                  </label>
-                  <div className="mt-2 ml-4">
-                    <input
-                      type="text"
-                      id="Age"
-                      name="Age"
-                      autoComplete="0"
-                      onChange={(e) => setAge(e.target.value)}
-                      className="block w-10 ml-5 rounded-md border-0 py-1.5 pl-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    />
-                  </div>
+            <div>
+                <label htmlFor="hobbies" className="block text-sm font-medium leading-6 text-gray-900">
+                    Hobbies
+                </label>
+                <div className="mt-2">
+                <input
+                  id="hobbies"
+                  name="hobbies"
+                  type="hobbies"
+                  autoComplete="hobbies"
+                  value={hobbies}
+                  required
+                  onChange={(e) => setHobbies(e.target.value)}
+                  className="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
                 </div>
+            </div>
 
-                <div>
+            <div>
+                <label htmlFor="about" className="block text-sm font-medium leading-6 text-gray-900">
+                    About
+                </label>
+                <div className="mt-2">
+                <input
+                  id="about"
+                  name="about"
+                  type="about"
+                  autoComplete="about"
+                  value={about}
+                  required
+                  onChange={(e) => setAbout(e.target.value)}
+                  className="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+                </div>
+            </div>
+
+            <div>
                   <label htmlFor="distancePreference" className="block text-sm font-medium text-gray-700 ml-3">
                     Distance (miles)
                   </label>
@@ -238,11 +299,28 @@ export default function Signup() {
                       name="distancePreference"
                       autoComplete="0"
                       onChange={(e) => setDistancePreference(e.target.value)}
+                      value={distancePreference}
                       className="block w-10 rounded-md border-0 py-1.5 pl-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
                   </div>
+          </div>
+
+          <div>
+                  <label htmlFor="Age" className="block text-sm font-medium text-gray-700 ml-3">
+                    Age
+                  </label>
+                  <div className="mt-2 ml-1">
+                    <input
+                      type="text"
+                      id="Age"
+                      name="Age"
+                      autoComplete="0"
+                      onChange={(e) => setAge(e.target.value)}
+                      value={age}
+                      className="block w-10 ml-1 rounded-md border-0 py-1.5 pl-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                  </div>
                 </div>
-            </div>
 
             <div>
               <button
@@ -256,7 +334,7 @@ export default function Signup() {
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Already a member?
-            <Link href="/login" className="pl-1 font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+            <Link href="/" onClick={() => setHasAccount(!hasAccount)} className="pl-1 font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
                 Go here
             </Link>
           </p>

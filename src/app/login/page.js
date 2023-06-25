@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Navbar } from '../Navbar.js';
 
-export default function Login() {
+export default function Login({hasAccount, setHasAccount, setToken}) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -15,6 +15,7 @@ export default function Login() {
         console.log(data);
         setUsername('');
         setPassword('');
+        setToken(data);
     }
     return (
         <>
@@ -90,7 +91,7 @@ export default function Login() {
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Not a member?
-            <Link href="/signup" className="pl-1 font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+            <Link href="/" onClick={() => setHasAccount(!hasAccount)} className="pl-1 font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
                  Create an account Here
             </Link>
           </p>
